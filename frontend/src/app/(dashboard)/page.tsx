@@ -30,33 +30,33 @@ const SUPPORTED_AREAS = [
 type SupportedArea = (typeof SUPPORTED_AREAS)[number];
 
 const AREA_VIEWPORTS: Record<SupportedArea, { center: [number, number]; zoom: number }> = {
-  "All Bangalore":     { center: [77.608,  12.958],  zoom: 11.5 },
-  "BTM Layout":        { center: [77.6101, 12.9165], zoom: 13 },
+  "All Bangalore": { center: [77.608, 12.958], zoom: 11.5 },
+  "BTM Layout": { center: [77.6101, 12.9165], zoom: 13 },
   "Bannerghatta Road": { center: [77.5978, 12.8927], zoom: 13 },
-  "Yelahanka":         { center: [77.5963, 13.1007], zoom: 13 },
-  "Brookefield":       { center: [77.7499, 12.9698], zoom: 13 },
-  "Hebbal":            { center: [77.5971, 13.0353], zoom: 13 },
+  "Yelahanka": { center: [77.5963, 13.1007], zoom: 13 },
+  "Brookefield": { center: [77.7499, 12.9698], zoom: 13 },
+  "Hebbal": { center: [77.5971, 13.0353], zoom: 13 },
 };
 
 // Each area gets a distinct accent colour used both in the pill bar
 // and as the map boundary fill / stroke.
 const AREA_COLORS: Record<SupportedArea, { hex: string; tw: string; ring: string; fill: string }> = {
-  "All Bangalore":     { hex: "#6366f1", tw: "text-indigo-400",  ring: "border-indigo-500/50",  fill: "bg-indigo-500/15" },
-  "BTM Layout":        { hex: "#f43f5e", tw: "text-rose-400",    ring: "border-rose-500/50",    fill: "bg-rose-500/15" },
-  "Bannerghatta Road": { hex: "#f59e0b", tw: "text-amber-400",   ring: "border-amber-500/50",   fill: "bg-amber-500/15" },
-  "Yelahanka":         { hex: "#10b981", tw: "text-emerald-400", ring: "border-emerald-500/50", fill: "bg-emerald-500/15" },
-  "Brookefield":       { hex: "#8b5cf6", tw: "text-violet-400",  ring: "border-violet-500/50",  fill: "bg-violet-500/15" },
-  "Hebbal":            { hex: "#06b6d4", tw: "text-cyan-400",    ring: "border-cyan-500/50",    fill: "bg-cyan-500/15" },
+  "All Bangalore": { hex: "#6366f1", tw: "text-indigo-400", ring: "border-indigo-500/50", fill: "bg-indigo-500/15" },
+  "BTM Layout": { hex: "#f43f5e", tw: "text-rose-400", ring: "border-rose-500/50", fill: "bg-rose-500/15" },
+  "Bannerghatta Road": { hex: "#f59e0b", tw: "text-amber-400", ring: "border-amber-500/50", fill: "bg-amber-500/15" },
+  "Yelahanka": { hex: "#10b981", tw: "text-emerald-400", ring: "border-emerald-500/50", fill: "bg-emerald-500/15" },
+  "Brookefield": { hex: "#8b5cf6", tw: "text-violet-400", ring: "border-violet-500/50", fill: "bg-violet-500/15" },
+  "Hebbal": { hex: "#06b6d4", tw: "text-cyan-400", ring: "border-cyan-500/50", fill: "bg-cyan-500/15" },
 };
 
 // Approximate bounding polygons for each area (lng, lat pairs).
 // These are rendered as GeoJSON fill + stroke layers on the map canvas.
 const AREA_POLYGONS: Partial<Record<SupportedArea, [number, number][]>> = {
-  "BTM Layout":        [[77.595,12.908],[77.630,12.908],[77.630,12.928],[77.595,12.928],[77.595,12.908]],
-  "Bannerghatta Road": [[77.584,12.873],[77.618,12.873],[77.618,12.912],[77.584,12.912],[77.584,12.873]],
-  "Yelahanka":         [[77.582,13.088],[77.616,13.088],[77.616,13.115],[77.582,13.115],[77.582,13.088]],
-  "Brookefield":       [[77.734,12.957],[77.768,12.957],[77.768,12.984],[77.734,12.984],[77.734,12.957]],
-  "Hebbal":            [[77.584,13.023],[77.616,13.023],[77.616,13.050],[77.584,13.050],[77.584,13.023]],
+  "BTM Layout": [[77.595, 12.908], [77.630, 12.908], [77.630, 12.928], [77.595, 12.928], [77.595, 12.908]],
+  "Bannerghatta Road": [[77.584, 12.873], [77.618, 12.873], [77.618, 12.912], [77.584, 12.912], [77.584, 12.873]],
+  "Yelahanka": [[77.582, 13.088], [77.616, 13.088], [77.616, 13.115], [77.582, 13.115], [77.582, 13.088]],
+  "Brookefield": [[77.734, 12.957], [77.768, 12.957], [77.768, 12.984], [77.734, 12.984], [77.734, 12.957]],
+  "Hebbal": [[77.584, 13.023], [77.616, 13.023], [77.616, 13.050], [77.584, 13.050], [77.584, 13.023]],
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -133,7 +133,7 @@ function weatherIcon(w: string) {
   return <Sun className="h-3 w-3" />;
 }
 function agentSpeed(traffic: string, vehicle: string): number {
-  const base   = vehicle === "bicycle" ? 0.00018 : 0.0004;
+  const base = vehicle === "bicycle" ? 0.00018 : 0.0004;
   const factor = traffic === "Jam" ? 0.3 : traffic === "High" ? 0.55 : traffic === "Medium" ? 0.75 : 1.0;
   return base * factor;
 }
@@ -234,21 +234,21 @@ function AreaBoundaryMarker({ area }: { area: SupportedArea }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function LiveMapPage() {
-  const router  = useRouter();
-  const mapRef  = useRef<MapRef>(null);
+  const router = useRouter();
+  const mapRef = useRef<MapRef>(null);
 
-  const [selectedArea,  setSelectedArea]  = useState<SupportedArea>("All Bangalore");
-  const [restaurants,   setRestaurants]   = useState<Restaurant[]>([]);
-  const [agentSims,     setAgentSims]     = useState<AgentSim[]>([]);
-  const [activeOrders,  setActiveOrders]  = useState<ActiveOrder[]>([]);
-  const [stats,         setStats]         = useState<Stats>({ totalRestaurants: 0, totalAgents: 0, totalOrders: 0, available: 0, onDelivery: 0, offline: 0 });
-  const [loading,       setLoading]       = useState(true);
-  const [isOnline,      setIsOnline]      = useState(true);
-  const [lastUpdated,   setLastUpdated]   = useState<Date | null>(null);
-  const [routeLayers,   setRouteLayers]   = useState<Record<string, [number, number][]>>({});
+  const [selectedArea, setSelectedArea] = useState<SupportedArea>("All Bangalore");
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [agentSims, setAgentSims] = useState<AgentSim[]>([]);
+  const [activeOrders, setActiveOrders] = useState<ActiveOrder[]>([]);
+  const [stats, setStats] = useState<Stats>({ totalRestaurants: 0, totalAgents: 0, totalOrders: 0, available: 0, onDelivery: 0, offline: 0 });
+  const [loading, setLoading] = useState(true);
+  const [isOnline, setIsOnline] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [routeLayers, setRouteLayers] = useState<Record<string, [number, number][]>>({});
 
   const animFrameRef = useRef<number | null>(null);
-  const lastTickRef  = useRef<number>(0);
+  const lastTickRef = useRef<number>(0);
 
   // ─── Fetch ─────────────────────────────────────────────────────────────────
   const fetchData = useCallback(async (area: SupportedArea = "All Bangalore") => {
@@ -258,7 +258,7 @@ export default function LiveMapPage() {
         api.get(`/map-data${q}`),
         api.get("/orders"),
       ]);
-      const mapData   = mapRes.data;
+      const mapData = mapRes.data;
       const ordersRaw = ordersRes.data.orders || [];
 
       setRestaurants(mapData.restaurants);
@@ -281,12 +281,12 @@ export default function LiveMapPage() {
             id: a.id, name: a.name, status: a.status,
             vehicleType: a.vehicleType, ratings: a.ratings,
             currentPos: [a.longitude, a.latitude] as [number, number],
-            routePath:  [[a.longitude, a.latitude]] as [number, number][],
+            routePath: [[a.longitude, a.latitude]] as [number, number][],
             pathIdx: 0,
             targetDelivery: o ? [o.deliveryLocationLongitude, o.deliveryLocationLatitude] as [number, number] : undefined,
-            orderId:           o?.orderId,
+            orderId: o?.orderId,
             weatherConditions: o?.weatherConditions,
-            roadTrafficDensity:o?.roadTrafficDensity,
+            roadTrafficDensity: o?.roadTrafficDensity,
           };
         });
 
@@ -312,8 +312,10 @@ export default function LiveMapPage() {
       }
       setRouteLayers(newLayers);
       setAgentSims(updated);
-    } catch (err) {
-      console.error("map-data fetch failed:", err);
+    } catch (err: any) {
+      if (err?.response?.status !== 401) {
+        console.error("map-data fetch failed:", err);
+      }
       setIsOnline(false);
     } finally {
       setLoading(false);
@@ -345,7 +347,7 @@ export default function LiveMapPage() {
           const next = prev.map((sim) => {
             if (sim.status !== "On Delivery" || sim.routePath.length < 2) return sim;
             const speed = agentSpeed(sim.roadTrafficDensity || "Medium", sim.vehicleType);
-            const step  = Math.max(1, Math.round(speed * 1000));
+            const step = Math.max(1, Math.round(speed * 1000));
             const nextIdx = Math.min(sim.pathIdx + step, sim.routePath.length - 1);
             if (nextIdx === sim.pathIdx) return sim; // skip unchanged
             changed = true;
@@ -405,7 +407,7 @@ export default function LiveMapPage() {
         </MapMarker>
       ) : null
     ),
-  [restaurants, router]);
+    [restaurants, router]);
 
   const orderMarkers = useMemo(() =>
     activeOrders.slice(0, 50).map((o) =>
@@ -423,10 +425,10 @@ export default function LiveMapPage() {
         </MapMarker>
       ) : null
     ),
-  [activeOrders]);
+    [activeOrders]);
 
   const activeArea = selectedArea !== "All Bangalore" ? selectedArea : null;
-  const areaColor  = selectedArea !== "All Bangalore" ? AREA_COLORS[selectedArea] : null;
+  const areaColor = selectedArea !== "All Bangalore" ? AREA_COLORS[selectedArea] : null;
 
   return (
     <div className="h-full w-full relative bg-zinc-950">
@@ -464,7 +466,7 @@ export default function LiveMapPage() {
         {agentSims.slice(0, 150).map((agent) => {
           const [lng, lat] = agent.currentPos;
           if (!lng || !lat) return null;
-          const sc  = statusColor(agent.status);
+          const sc = statusColor(agent.status);
           const pulsing = agent.status === "On Delivery";
           return (
             <MapMarker
@@ -485,7 +487,7 @@ export default function LiveMapPage() {
                 <p className="text-[11px] font-semibold">{agent.name}</p>
                 <p className={`text-[10px] flex items-center gap-1 ${statusTextColor(agent.status)}`}>
                   <span className={`inline-block h-1.5 w-1.5 rounded-full ${sc}`} />
-                  {agent.status} · {agent.vehicleType?.replace("_"," ")}
+                  {agent.status} · {agent.vehicleType?.replace("_", " ")}
                   {agent.weatherConditions && <span className="ml-1 opacity-70">{weatherIcon(agent.weatherConditions)}</span>}
                 </p>
               </MarkerTooltip>
@@ -497,7 +499,7 @@ export default function LiveMapPage() {
                       {agent.status}
                     </Badge>
                     <Badge className="bg-zinc-800 text-zinc-400 text-[10px] h-4 px-1.5 capitalize">
-                      {agent.vehicleType?.replace("_"," ")}
+                      {agent.vehicleType?.replace("_", " ")}
                     </Badge>
                     <Badge className="bg-zinc-800 text-zinc-400 text-[10px] h-4 px-1.5 flex items-center">
                       <Star className="h-2.5 w-2.5 mr-1 fill-amber-400 text-amber-400" />{agent.ratings}
@@ -549,11 +551,10 @@ export default function LiveMapPage() {
                 <Activity className="h-4 w-4 text-indigo-400 animate-pulse" />
                 Live Network Status
               </h3>
-              <div className={`flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full border ${
-                isOnline
+              <div className={`flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full border ${isOnline
                   ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                   : "bg-rose-500/10 text-rose-400 border-rose-500/20"
-              }`}>
+                }`}>
                 {isOnline ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
                 {isOnline ? "Live" : "Offline"}
               </div>
@@ -599,8 +600,8 @@ export default function LiveMapPage() {
             <div className="grid grid-cols-3 gap-2">
               {[
                 { label: "Restaurants", value: stats.totalRestaurants, color: "#f43f5e", icon: <Store className="h-3 w-3" /> },
-                { label: "Agents",      value: stats.totalAgents,      color: "#6366f1", icon: <Users className="h-3 w-3" /> },
-                { label: "Orders",      value: stats.totalOrders,      color: "#8b5cf6", icon: <TrendingUp className="h-3 w-3" /> },
+                { label: "Agents", value: stats.totalAgents, color: "#6366f1", icon: <Users className="h-3 w-3" /> },
+                { label: "Orders", value: stats.totalOrders, color: "#8b5cf6", icon: <TrendingUp className="h-3 w-3" /> },
               ].map((s) => (
                 <div
                   key={s.label}
@@ -621,9 +622,9 @@ export default function LiveMapPage() {
             {/* Agent breakdown */}
             <div className="space-y-2">
               {[
-                { label: "Available",   count: stats.available,  dot: "bg-emerald-500",              text: "text-emerald-400" },
-                { label: "On Delivery", count: stats.onDelivery, dot: "bg-amber-500 animate-pulse",  text: "text-amber-400" },
-                { label: "Offline",     count: stats.offline,    dot: "bg-zinc-600",                 text: "text-zinc-400" },
+                { label: "Available", count: stats.available, dot: "bg-emerald-500", text: "text-emerald-400" },
+                { label: "On Delivery", count: stats.onDelivery, dot: "bg-amber-500 animate-pulse", text: "text-amber-400" },
+                { label: "Offline", count: stats.offline, dot: "bg-zinc-600", text: "text-zinc-400" },
               ].map((s) => (
                 <div key={s.label} className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-xs text-zinc-400">
@@ -655,11 +656,11 @@ export default function LiveMapPage() {
               <p className="text-[9px] text-zinc-600 mb-2 uppercase tracking-widest font-semibold">Legend</p>
               <div className="grid grid-cols-2 gap-1.5">
                 {[
-                  { dot: "bg-rose-500",    icon: <Store    className="h-2 w-2 text-white" />, label: "Restaurant" },
-                  { dot: "bg-emerald-500", icon: <Bike     className="h-2 w-2 text-white" />, label: "Available" },
-                  { dot: "bg-amber-500",   icon: <Bike     className="h-2 w-2 text-white" />, label: "On Delivery" },
-                  { dot: "bg-sky-400",     icon: <MapPin   className="h-2 w-2 text-white" />, label: "Customer" },
-                  { dot: "bg-zinc-600",    icon: <Bike     className="h-2 w-2 text-white" />, label: "Offline" },
+                  { dot: "bg-rose-500", icon: <Store className="h-2 w-2 text-white" />, label: "Restaurant" },
+                  { dot: "bg-emerald-500", icon: <Bike className="h-2 w-2 text-white" />, label: "Available" },
+                  { dot: "bg-amber-500", icon: <Bike className="h-2 w-2 text-white" />, label: "On Delivery" },
+                  { dot: "bg-sky-400", icon: <MapPin className="h-2 w-2 text-white" />, label: "Customer" },
+                  { dot: "bg-zinc-600", icon: <Bike className="h-2 w-2 text-white" />, label: "Offline" },
                 ].map((l) => (
                   <div key={l.label} className="flex items-center gap-1.5 text-[10px] text-zinc-400">
                     <div className={`h-3.5 w-3.5 rounded-full ${l.dot} flex items-center justify-center shrink-0`}>

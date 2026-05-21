@@ -12,15 +12,17 @@ dotenv.config();
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   max: 20,
-  // Raised from 2 s → 10 s so heavy analytical queries don't time out
-  // while waiting for an available connection from the pool.
-  connectionTimeoutMillis: 10000,
-  // Raised from 30 s → 60 s to keep idle connections alive longer.
-  idleTimeoutMillis: 60000,
-  // Keep TCP sockets alive so the OS doesn't silently drop them after
-  // a period of inactivity (prevents 'Connection terminated unexpectedly').
+  // Removed connectionTimeoutMillis or increased to let network fallback work
+  connectionTimeoutMillis: 0,
+  // Reduced to 10s to prevent Supabase PgBouncer dropping idle connections quietly
+  idleTimeoutMillis: 10000,
   keepAlive: true,
   keepAliveInitialDelayMillis: 10000,
+});
+
+// Catch pool errors to prevent application crashes
+pool.on('error', (err, client) => {
+  console.error('Unexpected error on idle client', err);
 });
 
 export const db = drizzle(pool, {
